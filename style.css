@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    color: #fff;
+    background-image: url('assets/town_winter.jpg');
+}
+
+.weather-icon {
+    font-size: 45px;
+}
+
+.align-center {
+    text-align: center;
+    width: 75%;
+}
+
+p {
+    font-size: 24px;
+}
