@@ -54,7 +54,7 @@ async function showPosition(position) {
             {
                 method: "GET",
                 headers: {
-                    "X-Api-Key": "lUYW1Wu896E7NTbZXKpiHw==H5x1D9Z79nme4g2l",
+                    "": "",
                 },
             });
         const result = await response.json();
