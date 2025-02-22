@@ -97,19 +97,19 @@ function updateUiInfo(info, cityName) {
     if (info.temp < 0) {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-cloud-snow-fill");
-        bgBody.style.backgroundImage = "url('assets/town_winter.jpg')";
+        bgBody.style.backgroundImage = "url('./Assets/Images/town_winter.jpg')";
     } else if (info.temp >= 0 && info.temp < 10) {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-cloud-drizzle-fill");
-        bgBody.style.backgroundImage = "url('assets/rain.jpg')";
+        bgBody.style.backgroundImage = "url('./Assets/Images/rain.jpg')";
     } else if (info.temp >= 10 && info.temp < 20) {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-cloud-sun-fill");
-        bgBody.style.backgroundImage = "url('assets/bewolkt.jpg')";
+        bgBody.style.backgroundImage = "url('./Assets/Images/bewolkt.jpg')";
     } else {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-brightness-high-fill");
-        bgBody.style.backgroundImage = "url('assets/sohnenschein.jpg')";
+        bgBody.style.backgroundImage = "url('./Assets/Images/sohnenschein.jpg')";
     }
 
     dateNow.innerHTML = new Date().toDateString();
