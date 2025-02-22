@@ -4,7 +4,7 @@
 
 body {
     color: #fff;
-    background-image: url('assets/town_winter.jpg');
+    background-image: url('./Assets/Images/town_winter.jpg');
 }
 
 .weather-icon {
