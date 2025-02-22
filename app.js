@@ -12,11 +12,15 @@ const windDeeg = document.querySelector(".wind-deeg");
 
 formInput.addEventListener("submit", (event) => {
     event.preventDefault();
+    clearContent();
+    displayLoading();
     geWeatherDataForCity(cityInput.value);
     cityInput.value = "";
 });
 
 window.addEventListener("load", () => {
+    clearContent();
+    displayLoading();
     const cityDefoult = getLocation();
     cityDefoult.then(cityName => {
         if (cityName) {
@@ -28,6 +32,7 @@ window.addEventListener("load", () => {
         console.error("Eroare la obtinerea locatiei", error);
     });
 });
+
 
 async function getLocation() {
     return new Promise((resolve, reject) => {
@@ -65,6 +70,7 @@ async function showPosition(position) {
         } else {
             throw new Error("Nu sa gasit nici o locatie.");
         }
+
     } catch (error) {
         console.error("Eroare", error);
         throw error;
@@ -84,8 +90,10 @@ async function geWeatherDataForCity(cityName) {
 
         const result = await response.json();
         updateUiInfo(result, cityName);
+        hideLoading();
         console.log(cityName, result);
     } catch (error) {
+        hideLoading();
         console.error("Error", error);
     }
 }
@@ -98,11 +106,13 @@ function updateUiInfo(info, cityName) {
     if (info.temp < 0) {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-cloud-snow-fill");
-        bgBody.style.backgroundImage = "url('./Assets/Images/town_winter.jpg')";
+        bgBody.style.backgroundImage = "url('./Assets/Images/winter.jpg')";
+        bgBody.style.color = "white";
     } else if (info.temp >= 0 && info.temp < 10) {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-cloud-drizzle-fill");
         bgBody.style.backgroundImage = "url('./Assets/Images/rain.jpg')";
+        bgBody.style.color = "white";
     } else if (info.temp >= 10 && info.temp < 20) {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-cloud-sun-fill");
@@ -110,7 +120,8 @@ function updateUiInfo(info, cityName) {
     } else {
         weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
         weatherIcon.classList.add("bi-brightness-high-fill");
-        bgBody.style.backgroundImage = "url('./Assets/Images/sohnenschein.jpg')";
+        bgBody.style.backgroundImage = "url('./Assets/Images/sommer.jpg')";
+
     }
 
     dateNow.innerHTML = new Date().toDateString();
@@ -118,4 +129,25 @@ function updateUiInfo(info, cityName) {
     humidity.innerHTML = info.humidity;
     windSpeed.innerHTML = info.wind_speed;
     windDeeg.innerHTML = info.wind_degrees;
+}
+
+function clearContent() {
+    const pageContent = document.querySelector('.page-content');
+    pageContent.innerHTML = '';
+}
+
+
+function displayLoading() {
+    const pageContent = document.querySelector(".page-content");
+    const loading = document.createElement("p");
+    loading.setAttribute("id", "loading");
+    loading.innerHTML = "Se incarca datele.....";
+    pageContent.append(loading);
+}
+
+function hideLoading() {
+    const loading = document.querySelector("#loading");
+    if (loading) {
+        loading.remove();
+    }
 }

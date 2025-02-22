@@ -3,8 +3,11 @@
 }
 
 body {
-    color: #a3d7e1;
+    color: #0f3c68;
     background-color: #556b2f;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 h1 {
@@ -15,6 +18,11 @@ h1 {
 .temp {
     font-size: 40px;
     font-weight: 900;
+}
+
+.page-content>p {
+    font-size: 24px;
+    font-weight: 300;
 }
 
 .weather-icon {
