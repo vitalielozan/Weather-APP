@@ -59,9 +59,9 @@ async function showPosition(position) {
             });
         const result = await response.json();
         if (result.length > 0) {
-            const cityCurent = result[0].name;
-            console.log(cityCurent, result);
-            return cityCurent;
+            const cityName = result[0].name;
+            console.log(cityName, result);
+            return cityName;
         } else {
             throw new Error("Nu sa gasit nici o locatie.");
         }
