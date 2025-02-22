@@ -3,8 +3,18 @@
 }
 
 body {
-    color: #fff;
+    color: #a3d7e1;
     background-color: #556b2f;
+}
+
+h1 {
+    font-size: 45px;
+    font-weight: 900;
+}
+
+.temp {
+    font-size: 40px;
+    font-weight: 900;
 }
 
 .weather-icon {
@@ -17,5 +27,6 @@ body {
 }
 
 p {
-    font-size: 24px;
+    font-weight: 600;
+    font-size: 40px;
 }
