@@ -12,14 +12,12 @@ const windDeeg = document.querySelector(".wind-deeg");
 
 formInput.addEventListener("submit", (event) => {
     event.preventDefault();
-    clearContent();
     displayLoading();
     geWeatherDataForCity(cityInput.value);
     cityInput.value = "";
 });
 
 window.addEventListener("load", () => {
-    clearContent();
     displayLoading();
     const cityDefoult = getLocation();
     cityDefoult.then(cityName => {
@@ -130,12 +128,6 @@ function updateUiInfo(info, cityName) {
     windSpeed.innerHTML = info.wind_speed;
     windDeeg.innerHTML = info.wind_degrees;
 }
-
-function clearContent() {
-    const pageContent = document.querySelector('.page-content');
-    pageContent.innerHTML = '';
-}
-
 
 function displayLoading() {
     const pageContent = document.querySelector(".page-content");
