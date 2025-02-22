@@ -90,6 +90,7 @@ async function geWeatherDataForCity(cityName) {
     }
 }
 
+
 function updateUiInfo(info, cityName) {
     city.innerHTML = cityName;
     temperature.innerHTML = info.temp;
