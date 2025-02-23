@@ -33,6 +33,7 @@ window.addEventListener("load", () => {
 
 
 async function getLocation() {
+    // async-await
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
