@@ -1,34 +1,37 @@
 const bgBody = document.querySelector("body");
 const formInput = document.querySelector("#formInput");
 const cityInput = document.querySelector("#cityInput");
-const city = document.querySelector(".city");
-const temperature = document.querySelector(".temp");
+const city = document.querySelector("#city");
+const temperature = document.querySelector("#temp");
+const icon = document.querySelector("#weatherIcon");
 const weatherIcon = document.querySelector(".weather-icon");
-const dateNow = document.querySelector(".date");
-const tempFeel = document.querySelector(".temp-feel");
-const humidity = document.querySelector(".humidity");
-const windSpeed = document.querySelector(".wind");
-const windDeeg = document.querySelector(".wind-deeg");
+const dateNow = document.querySelector("#date");
+const tempFeel = document.querySelector("#temp-feel");
+const humidity = document.querySelector("#humidity");
+const windSpeed = document.querySelector("#wind");
+const windDeeg = document.querySelector("#wind-deeg");
 
-formInput.addEventListener("submit", (event) => {
+formInput.addEventListener("submit", async (event) => {
     event.preventDefault();
     displayLoading();
-    geWeatherDataForCity(cityInput.value);
+    await geWeatherDataForCity(cityInput.value);
     cityInput.value = "";
 });
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
     displayLoading();
-    const cityDefoult = getLocation();
-    cityDefoult.then(cityName => {
+    try {
+        const cityName = await getLocation();
         if (cityName) {
-            geWeatherDataForCity(cityName);
+            await geWeatherDataForCity(cityName);
+
         } else {
-            console.error("Nu sa putut obtine locatia implicita.");
+            showError("Nu sa putut obtine locatia implicita.");
         }
-    }).catch(error => {
-        console.error("Eroare la obtinerea locatiei", error);
-    });
+
+    } catch (error) {
+        showErrorrror("Eroare la obtinerea locatiei", error);
+    }
 });
 
 
@@ -38,17 +41,15 @@ async function getLocation() {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     showPosition(position).then(resolve).catch(reject);
-                },
-                (error) => {
-                    console.error("Eroare le obtinerea geolocatiei:", error);
+                }, (error) => {
                     reject(error);
                 });
         } else {
-            alert("Geolocatia nu este suportata de acest browser");
-            reject("Geolocatia nu este suportata");
+            reject("Geolocatia nu este suportata de acest browser.");
         }
     });
 }
+
 
 async function showPosition(position) {
     try {
@@ -63,15 +64,11 @@ async function showPosition(position) {
         const result = await response.json();
         if (result.length > 0) {
             const cityName = result[0].name;
-            console.log(cityName, result);
             return cityName;
-        } else {
-            throw new Error("Nu sa gasit nici o locatie.");
         }
-
     } catch (error) {
         console.error("Eroare", error);
-        throw error;
+        throw new Error("Nu saa gasit locatia.", error);
     }
 
 }
@@ -89,7 +86,6 @@ async function geWeatherDataForCity(cityName) {
         const result = await response.json();
         updateUiInfo(result, cityName);
         hideLoading();
-        console.log(cityName, result);
     } catch (error) {
         hideLoading();
         console.error("Error", error);
@@ -101,26 +97,7 @@ function updateUiInfo(info, cityName) {
     city.innerHTML = cityName;
     temperature.innerHTML = info.temp;
 
-    if (info.temp < 0) {
-        weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
-        weatherIcon.classList.add("bi-cloud-snow-fill");
-        bgBody.style.backgroundImage = "url('./Assets/Images/winter.jpg')";
-        bgBody.style.color = "white";
-    } else if (info.temp >= 0 && info.temp < 10) {
-        weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
-        weatherIcon.classList.add("bi-cloud-drizzle-fill");
-        bgBody.style.backgroundImage = "url('./Assets/Images/rain.jpg')";
-        bgBody.style.color = "white";
-    } else if (info.temp >= 10 && info.temp < 20) {
-        weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
-        weatherIcon.classList.add("bi-cloud-sun-fill");
-        bgBody.style.backgroundImage = "url('./Assets/Images/bewolkt.jpg')";
-    } else {
-        weatherIcon.classList.remove("bi-cloud-snow-fill", "bi-brightness-high-fill", "bi-cloud-sun-fill", "bi-cloud-drizzle-fill");
-        weatherIcon.classList.add("bi-brightness-high-fill");
-        bgBody.style.backgroundImage = "url('./Assets/Images/sommer.jpg')";
-
-    }
+    updateWeatherUI(info.temp);
 
     dateNow.innerHTML = new Date().toDateString();
     tempFeel.innerHTML = info.feels_like;
@@ -128,6 +105,24 @@ function updateUiInfo(info, cityName) {
     windSpeed.innerHTML = info.wind_speed;
     windDeeg.innerHTML = info.wind_degrees;
 }
+
+function updateWeatherUI(temp) {
+    const weatherConditions = [
+        { class: "bi-cloud-snow-fill", bg: "winter.jpg", textColor: "white", min: -Infinity, max: 0 },
+        { class: "bi-cloud-drizzle-fill", bg: "rain.jpg", textColor: "white", min: 0, max: 10 },
+        { class: "bi-cloud-sun-fill", bg: "bewolkt.jpg", textColor: "black", min: 10, max: 20 },
+        { class: "bi-brightness-high-fill", bg: "sommer.jpg", textColor: "coral", min: 20, max: Infinity }
+    ];
+
+    const condition = weatherConditions.find(cond => temp >= cond.min && temp < cond.max);
+
+    if (condition) {
+        weatherIcon.className = `weather-icon ${condition.class}`;
+        bgBody.style.backgroundImage = `url('./Assets/Images/${condition.bg}')`;
+        bgBody.style.color = `${condition.textColor}`;
+    }
+}
+
 
 function displayLoading() {
     const pageContent = document.querySelector(".page-content");
