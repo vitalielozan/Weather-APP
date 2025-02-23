@@ -109,7 +109,7 @@ function updateUiInfo(info, cityName) {
 function updateWeatherUI(temp) {
     const weatherConditions = [
         { class: "bi-cloud-snow-fill", bg: "winter.jpg", textColor: "white", min: -Infinity, max: 0 },
-        { class: "bi-cloud-drizzle-fill", bg: "rain.jpg", textColor: "white", min: 0, max: 10 },
+        { class: "bi-cloud-drizzle-fill", bg: "rainy.jpg", textColor: "white", min: 0, max: 10 },
         { class: "bi-cloud-sun-fill", bg: "bewolkt.jpg", textColor: "black", min: 10, max: 20 },
         { class: "bi-brightness-high-fill", bg: "sommer.jpg", textColor: "coral", min: 20, max: Infinity }
     ];
