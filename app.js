@@ -125,12 +125,10 @@ function updateWeatherUI(temp) {
 function displayLoading() {
     const pageContent = document.querySelector(".page-content");
     const loading = document.createElement("p");
-    if (loading) {
-        loading.setAttribute("id", "loading");
-        loading.innerHTML = "Se incarca datele.....";
-        pageContent.append(loading);
-    }
-    return;
+    loading.setAttribute("id", "loading");
+    loading.innerHTML = "Se incarca datele.....";
+    pageContent.append(loading);
+
 }
 
 function hideLoading() {
