@@ -130,6 +130,7 @@ function displayLoading() {
         loading.innerHTML = "Se incarca datele.....";
         pageContent.append(loading);
     }
+    return;
 }
 
 function hideLoading() {
