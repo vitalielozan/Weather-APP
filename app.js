@@ -39,12 +39,16 @@ window.addEventListener("load", async () => {
 async function getLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    showPosition(position).then(resolve).catch(reject);
-                }, (error) => {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                try {
+                    const sityName = await showPosition(position);
+                    resolve(sityName);
+                } catch (error) {
                     reject(error);
-                });
+                }
+            }, (error) => {
+                reject(error);
+            });
         } else {
             reject("Geolocatia nu este suportata de acest browser.");
         }
@@ -70,7 +74,6 @@ async function showPosition(position) {
     }
 
 }
-
 
 async function geWeatherDataForCity(cityName) {
     try {
@@ -125,10 +128,11 @@ function updateWeatherUI(temp) {
 function displayLoading() {
     const pageContent = document.querySelector(".page-content");
     const loading = document.createElement("p");
-    loading.setAttribute("id", "loading");
-    loading.innerHTML = "Se incarca datele.....";
-    pageContent.append(loading);
-
+    if (loading) {
+        loading.setAttribute("id", "loading");
+        loading.innerHTML = "Se preiau datele.....";
+        pageContent.append(loading);
+    }
 }
 
 function hideLoading() {
