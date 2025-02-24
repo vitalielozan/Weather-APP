@@ -1,3 +1,4 @@
+const api_key = "lUYW1Wu896E7NTbZXKpiHw==H5x1D9Z79nme4g2l";
 const bgBody = document.querySelector("body");
 const formInput = document.querySelector("#formInput");
 const cityInput = document.querySelector("#cityInput");
@@ -58,17 +59,14 @@ async function showPosition(position) {
             {
                 method: "GET",
                 headers: {
-                    "X-Api-Key": "lUYW1Wu896E7NTbZXKpiHw==H5x1D9Z79nme4g2l",
+                    "X-Api-Key": api_key,
                 },
             });
         const result = await response.json();
-        if (result.length > 0) {
-            const cityName = result[0].name;
-            return cityName;
-        }
+        return result[0].name;
     } catch (error) {
         console.error("Eroare", error);
-        throw new Error("Nu saa gasit locatia.", error);
+        throw new Error("Nu s-a putut prelua locatia.", error);
     }
 
 }
@@ -79,7 +77,7 @@ async function geWeatherDataForCity(cityName) {
         const response = await fetch("https://api.api-ninjas.com/v1/weather?city=" + cityName, {
             method: "GET",
             headers: {
-                "X-Api-Key": "lUYW1Wu896E7NTbZXKpiHw==H5x1D9Z79nme4g2l",
+                "X-Api-Key": api_key,
             },
         });
 
@@ -127,9 +125,11 @@ function updateWeatherUI(temp) {
 function displayLoading() {
     const pageContent = document.querySelector(".page-content");
     const loading = document.createElement("p");
-    loading.setAttribute("id", "loading");
-    loading.innerHTML = "Se incarca datele.....";
-    pageContent.append(loading);
+    if (loading) {
+        loading.setAttribute("id", "loading");
+        loading.innerHTML = "Se incarca datele.....";
+        pageContent.append(loading);
+    }
 }
 
 function hideLoading() {
