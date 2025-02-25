@@ -96,7 +96,7 @@ async function geWeatherDataForCity(cityName) {
 
 function updateUiInfo(info, cityName) {
     city.innerHTML = cityName;
-    temperature.innerHTML = info.temp;
+    temperature.innerHTML = info.temp + "&deg";
 
     updateWeatherUI(info.temp);
 
@@ -109,17 +109,17 @@ function updateUiInfo(info, cityName) {
 
 function updateWeatherUI(temp) {
     const weatherConditions = [
-        { class: "bi-cloud-snow-fill", bg: "winter.jpg", textColor: "white", min: -Infinity, max: 0 },
-        { class: "bi-cloud-drizzle-fill", bg: "rainy.jpg", textColor: "white", min: 0, max: 10 },
-        { class: "bi-cloud-sun-fill", bg: "bewolkt.jpg", textColor: "black", min: 10, max: 20 },
-        { class: "bi-brightness-high-fill", bg: "sommer.jpg", textColor: "coral", min: 20, max: Infinity }
+        { class: "bi-cloud-snow-fill", bg: "winter.jpeg", textColor: "white", min: -Infinity, max: 0 },
+        { class: "bi-cloud-drizzle-fill", bg: "rainy.jpeg", textColor: "white", min: 0, max: 10 },
+        { class: "bi-cloud-sun-fill", bg: "autumm.jpeg", textColor: "darkgray", min: 10, max: 20 },
+        { class: "bi-brightness-high-fill", bg: "sommer.jpeg", textColor: "coral", min: 20, max: Infinity }
     ];
 
     const condition = weatherConditions.find(cond => temp >= cond.min && temp < cond.max);
 
     if (condition) {
         weatherIcon.className = `weather-icon ${condition.class}`;
-        bgBody.style.backgroundImage = `url('./Assets/Images/${condition.bg}')`;
+        bgBody.style.backgroundImage = `url('./Images/${condition.bg}')`;
         bgBody.style.color = `${condition.textColor}`;
     }
 }
@@ -129,6 +129,7 @@ function displayLoading() {
     const pageContent = document.querySelector(".page-content");
     const loading = document.createElement("p");
     if (loading) {
+        bgBody.style.backgroundImage = "none";
         loading.setAttribute("id", "loading");
         loading.innerHTML = "Se preiau datele.....";
         pageContent.append(loading);
