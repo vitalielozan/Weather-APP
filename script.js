@@ -31,7 +31,7 @@ window.addEventListener("load", async () => {
         }
 
     } catch (error) {
-        showErrorrror("Eroare la obtinerea locatiei", error);
+        showError("Eroare la obtinerea locatiei", error);
     }
 });
 
