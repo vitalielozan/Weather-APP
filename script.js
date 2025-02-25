@@ -1,4 +1,4 @@
-const api_key = "lUYW1Wu896E7NTbZXKpiHw==H5x1D9Z79nme4g2l";
+let api_key = "";
 const bgBody = document.querySelector("body");
 const formInput = document.querySelector("#formInput");
 const cityInput = document.querySelector("#cityInput");
@@ -11,6 +11,19 @@ const tempFeel = document.querySelector("#temp-feel");
 const humidity = document.querySelector("#humidity");
 const windSpeed = document.querySelector("#wind");
 const windDeeg = document.querySelector("#wind-deeg");
+
+
+const loadConfig = async () => {
+    try {
+        const resp = await fetch("config/config.json");
+        const data = await resp.json();
+        api_key = data.api_key;
+    } catch (error) {
+        console.log("Config error", error);
+    }
+}
+
+loadConfig();
 
 formInput.addEventListener("submit", async (event) => {
     event.preventDefault();
