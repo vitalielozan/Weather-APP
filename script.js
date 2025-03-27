@@ -29,16 +29,18 @@ formInput.addEventListener("submit", async (event) => {
     event.preventDefault();
     displayLoading();
     await geWeatherDataForCity(cityInput.value);
+    hideLoading();
     cityInput.value = "";
 });
 
 window.addEventListener("load", async () => {
     displayLoading();
+
     try {
         const cityName = await getLocation();
         if (cityName) {
             await geWeatherDataForCity(cityName);
-
+            hideLoading();
         } else {
             showError("Nu sa putut obtine locatia implicita.");
         }
@@ -123,8 +125,8 @@ function updateUiInfo(info, cityName) {
 function updateWeatherUI(temp) {
     const weatherConditions = [
         { class: "bi-cloud-snow-fill", bg: "winter.jpeg", textColor: "white", min: -Infinity, max: 0 },
-        { class: "bi-cloud-drizzle-fill", bg: "rainy.jpeg", textColor: "white", min: 0, max: 10 },
-        { class: "bi-cloud-sun-fill", bg: "autumm.jpeg", textColor: "darkgray", min: 10, max: 20 },
+        { class: "bi-cloud-drizzle-fill", bg: "rainy.jpg", textColor: "white", min: 0, max: 10 },
+        { class: "bi-cloud-sun-fill", bg: "autumm.jpg", textColor: "darkgray", min: 10, max: 20 },
         { class: "bi-brightness-high-fill", bg: "sommer.jpeg", textColor: "coral", min: 20, max: Infinity }
     ];
 
@@ -141,11 +143,13 @@ function updateWeatherUI(temp) {
 function displayLoading() {
     const pageContent = document.querySelector(".page-content");
     const loading = document.createElement("p");
+    const main = document.querySelector('main');
     if (loading) {
         bgBody.style.backgroundImage = "none";
         loading.setAttribute("id", "loading");
         loading.innerHTML = "Se preiau datele.....";
         pageContent.append(loading);
+        main.style.display = 'none';
     }
 }
 
@@ -154,4 +158,5 @@ function hideLoading() {
     if (loading) {
         loading.remove();
     }
+    document.querySelector('main').style.display = 'block';
 }
